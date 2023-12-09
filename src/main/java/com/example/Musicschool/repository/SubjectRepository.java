@@ -20,7 +20,7 @@ public interface SubjectRepository extends JpaRepository<Subject,Long> {
             "from subject inner join direction on subject.direction_id = direction.id where subject.id = :subject_id", nativeQuery = true)
     Optional<SubjectDirectionGetProjection> findBySubjectId(@Param("subject_id") Long id);
 
-    Optional<Subject> findByName(String name);
+    Optional<Subject> findFirstByNameAndDirection_Id(String name,Long id);
 
 
 }

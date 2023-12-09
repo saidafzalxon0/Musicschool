@@ -17,7 +17,7 @@ import java.util.UUID;
 @Component
 public class S3File {
 
-    @Value("${bucketName}")
+    @Value("${aws.bucketName}")
     private String bucket_name;
     @Autowired
     private AmazonS3 amazon;

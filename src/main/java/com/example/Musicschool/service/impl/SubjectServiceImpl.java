@@ -25,7 +25,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public ResponseDto<SubjectDirectionGetProjection> post(SubjectDto dto) {
-        if(repository.findByName(dto.getName()).isPresent()){
+        if(repository.findFirstByNameAndDirection_Id(dto.getName(),dto.getDirection().getId()).isPresent()){
             throw new DatabaseException("Subject is already exists");
         }
 
@@ -35,7 +35,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public ResponseDto<SubjectDirectionGetProjection> patch(SubjectDto dto) {
         if(dto.getId() == null) throw new DatabaseException("Subject id is null");
-        Optional<Subject> byName = repository.findByName(dto.getName());
+        Optional<Subject> byName = repository.findFirstByNameAndDirection_Id(dto.getName(),dto.getDirection().getId());
         if(byName.isEmpty()){
             if(repository.existsById(dto.getId())){
                 return ResponseDto.<SubjectDirectionGetProjection>builder().status("success").data(repository.findBySubjectId(repository.save(mapper.toEntity(dto)).getId()).get()).build();

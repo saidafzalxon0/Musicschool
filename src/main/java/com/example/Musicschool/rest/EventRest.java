@@ -5,6 +5,7 @@ import com.example.Musicschool.dto.ResponseDto;
 import com.example.Musicschool.entity.Event;
 import com.example.Musicschool.exception.DatabaseException;
 import com.example.Musicschool.service.EventService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ import java.text.SimpleDateFormat;
 @RequestMapping("/event")
 public record EventRest(EventService service) {
     @PostMapping(consumes = "multipart/form-data")
+    @SecurityRequirement(name = "Authorization")
     public ResponseDto<EventDto> post(@RequestPart String title, @RequestPart String about, @RequestPart String date, @RequestPart(required = false) String start_time,@RequestPart(required = false) String end_time,@RequestPart(required = false) String location,@RequestPart MultipartFile photo){
         try {
             return service.post(title,about,new SimpleDateFormat("dd-MM-yyyy").parse(date) , start_time,end_time,location,photo);
@@ -28,6 +30,7 @@ public record EventRest(EventService service) {
         }
     }
     @PatchMapping(consumes = "multipart/form-data")
+    @SecurityRequirement(name = "Authorization")
     public ResponseDto<EventDto> patch(@RequestPart String id, @RequestPart String title,@RequestPart String about,@RequestPart String date,@RequestPart(required = false) String start_time,@RequestPart(required = false) String end_time,@RequestPart(required = false) String location,@RequestPart(required = false) MultipartFile photo){
         try {
             return service.patch(Long.parseLong(id),title,about, new SimpleDateFormat("dd-MM-yyyy").parse(date), start_time,end_time,location,photo);
@@ -64,6 +67,7 @@ public record EventRest(EventService service) {
         return service.getAll(pageable);
     }
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Authorization")
     public ResponseDto<EventDto> delete(@PathVariable Long id){
         return service.delete(id);
     }

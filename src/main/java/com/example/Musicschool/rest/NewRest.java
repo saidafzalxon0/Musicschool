@@ -5,6 +5,7 @@ import com.example.Musicschool.dto.ResponseDto;
 import com.example.Musicschool.entity.New;
 import com.example.Musicschool.exception.DatabaseException;
 import com.example.Musicschool.service.NewService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,7 @@ public record NewRest(NewService service) {
 
 
     @PostMapping(consumes = "multipart/form-data")
+    @SecurityRequirement(name = "Authorization")
     public ResponseDto<NewDto> post(@RequestPart String title,@RequestPart String about,@RequestPart String shortly,@RequestPart(required = false) String who_from,@RequestPart String date,@RequestPart(required = false) MultipartFile file){
         try {
             return service.post(title, about, shortly, who_from, new SimpleDateFormat("dd-MM-yyyy").parse(date) , file);
@@ -29,6 +31,7 @@ public record NewRest(NewService service) {
         }
     }
     @PatchMapping(consumes = "multipart/form-data")
+    @SecurityRequirement(name = "Authorization")
     public ResponseDto<NewDto> patch(@RequestPart String id,@RequestPart String title,@RequestPart String about,@RequestPart String shortly,@RequestPart(required = false) String who_from,@RequestPart String date,@RequestPart(required = false) MultipartFile file){
         try {
             return service.patch(Long.parseLong(id), title, about, shortly, who_from, new SimpleDateFormat("dd-MM-yyy").parse(date), file);
@@ -65,6 +68,7 @@ public record NewRest(NewService service) {
         return service.getAll(pageable);
     }
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Authorization")
     public ResponseDto<NewDto> delete(@PathVariable Long id){
         return service.delete(id);
     }

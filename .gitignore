@@ -38,5 +38,5 @@ build/
 /target/
 /build/
 
-# application-dev.properties ni ignore qilish
-/src/main/resources/application-dev.properties
+# application-dev.yml ni ignore qilish
+/src/main/resources/application-dev.yml

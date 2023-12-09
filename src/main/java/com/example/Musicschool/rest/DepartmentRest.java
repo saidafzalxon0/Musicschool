@@ -4,6 +4,7 @@ import com.example.Musicschool.dto.DepartmentDto;
 import com.example.Musicschool.dto.ResponseDto;
 import com.example.Musicschool.projection.DepartmentProjection;
 import com.example.Musicschool.service.DepartmentService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.repository.query.Param;
@@ -15,10 +16,12 @@ import java.util.List;
 @RequestMapping("/department")
 public record DepartmentRest(DepartmentService service) {
     @PostMapping
+    @SecurityRequirement(name = "Authorization")
     public ResponseDto<DepartmentDto> post(@Valid @RequestBody DepartmentDto dto){
         return service.post(dto);
     }
     @PatchMapping
+    @SecurityRequirement(name = "Authorization")
     public ResponseDto<DepartmentDto> patch(@Valid @RequestBody DepartmentDto dto){
         return service.patch(dto);
     }
@@ -27,6 +30,7 @@ public record DepartmentRest(DepartmentService service) {
         return service.getAllDepartment();
     }
     @GetMapping("/getAllDirectionByDepartment")
+
     public ResponseDto<List<DepartmentProjection>> getAllDirectionDepartment(@Param("id") Long id){
         return service.getAllDirection(id);
     }
@@ -36,6 +40,7 @@ public record DepartmentRest(DepartmentService service) {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Authorization")
     public ResponseDto<DepartmentDto> delete(@NotNull @PathVariable Long id){
         return service.delete(id);
     }
