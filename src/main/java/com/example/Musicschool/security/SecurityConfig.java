@@ -43,7 +43,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http
                 .csrf(c-> c.disable())
-                .cors(cors -> cors.configurationSource(configurationSource()).disable())
+                .cors(cors -> cors.configurationSource(configurationSource()))
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers(
@@ -65,7 +65,6 @@ public class SecurityConfig {
 
     private CorsConfigurationSource configurationSource(){
         CorsConfiguration cors = new CorsConfiguration();
-        cors.setAllowCredentials(true);
         cors.addAllowedOriginPattern("*");
         cors.addAllowedHeader("*");
         cors.addAllowedMethod("*");
